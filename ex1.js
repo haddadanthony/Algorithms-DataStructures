@@ -1,5 +1,5 @@
-let arr = [1, 5, 7, 6];
-let num = 7;
+let arr = [7, 2, 4, 3, 8, 6, 1, 5];
+let num = 9;
 
 const find_sum = (list, n) => {
     let number = null;
@@ -21,15 +21,15 @@ const find_sum = (list, n) => {
 
 // Optimized version
 const find_summation = (list, n) => {
-    list = list.sort(); // [1, 5, 6, 7]
+    list = list.sort((a, b) => a - b);
 
-    let middle = list[Math.floor(list.length / 2)];
+    let middle = Math.floor(list.length / 2);
     let i = 0;
     let j = 1;
     let left, right;
     let pairs = [];
 
-    while(right !== middle && left !== middle) {
+    while(i < middle || j < middle) {
         left = list[i];
         right = list[list.length - j];
 
@@ -39,6 +39,7 @@ const find_summation = (list, n) => {
         } else {
             j++;
         }
+        console.log(list);
     }    
     return pairs;
 }
