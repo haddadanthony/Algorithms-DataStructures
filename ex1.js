@@ -45,3 +45,5 @@ const find_summation = (list, n) => {
 }
 
 console.log(find_summation(arr, num));
+
+// Time Complexity: O(n log n)
