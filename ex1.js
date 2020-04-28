@@ -1,3 +1,13 @@
+// Given an unsorted array of integers and number n. Find a pair in the array where the sum is equal to n.
+// E.g.
+// Input:
+// arr = [8,7,2,5,3,1]
+// n = 10
+// Output:
+// Pair found at index 0 and 2
+// or 
+// Pair found at index 1 and 4
+
 let arr = [7, 2, 4, 3, 8, 6, 1, 5];
 let num = 9;
 
