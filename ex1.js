@@ -14,7 +14,33 @@ const find_sum = (list, n) => {
     }
 }
 
-find_sum(arr, num);
+// find_sum(arr, num);
 
 // Time Complexity: O(n²)
 // Space Complexity: O(1)
+
+// Optimized version
+const find_summation = (list, n) => {
+    list = list.sort(); // [1, 5, 6, 7]
+
+    let middle = list[Math.floor(list.length / 2)];
+    let i = 0;
+    let j = 1;
+    let left, right;
+    let pairs = [];
+
+    while(right !== middle && left !== middle) {
+        left = list[i];
+        right = list[list.length - j];
+
+        if(left + right === n) {
+            pairs.push([left, right]);
+            i++;
+        } else {
+            j++;
+        }
+    }    
+    return pairs;
+}
+
+console.log(find_summation(arr, num));
