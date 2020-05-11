@@ -44,40 +44,118 @@ class BST {
         }
     }
 
-    findMin(curr) {
-        if(!curr.left) {
-            return curr;
+    findMin(child, parent) {
+        if(!child.left) {
+            return [child, parent];
         }
-        return this.findMin(curr.left)
+    
+        return this.findMin(child.left, child);
     }
 
     remove(el) {
-        if(this.root.data === el) {
-            let node = this.findMin(this.root);
-            this.root = node;
-            node = null;
+        let next = this.root;
+        let curr = this.root;
+        let [child, parent] = this.search(curr, el, null);
+        let nodeToDelete = child;
+        if(nodeToDelete) {
+            if(nodeToDelete.right && !nodeToDelete.left) {
+                if(parent===null){
+                    this.root = nodeToDelete.right;
+                }
+                else if(parent.right === nodeToDelete) {
+                    parent.right = nodeToDelete.right;
+                } else{
+                    parent.left = nodeToDelete.right;
+                }
+            } else if(nodeToDelete.left && !nodeToDelete.right) {
+                if(parent===null){
+                    this.root = nodeToDelete.left;
+                }
+                else if(parent.right === nodeToDelete) {
+                    parent.right = nodeToDelete.right;
+                } else {
+                    parent.right = nodeToDelete.left;   
+                }
+            } else if(nodeToDelete.left && nodeToDelete.right) {
+                let [minChild, minParent] = this.findMin(child.right, child);
+                if(parent===null){
+                    this.root.data = minChild.data;
+                    minParent.left = null;
+                }
+                else if(parent.right === nodeToDelete) {
+                    parent.right.data = minChild.data;
+                    minParent.left = null;
+                } else {
+                    parent.left.data = minChild.data;
+                    minParent.left = null;
+                }
+            } else if(!nodeToDelete.left && !nodeToDelete.right) {
+                if(parent.right === nodeToDelete) {
+                    parent.right = null;
+                } else {
+                    parent.left = null;
+                }
+            }
         }
     }
 
-    search(node, el) {
+    search(node, el, parent) {
+        if(!node) {
+            return [null, parent];
+        }
+
         if(node.data === el) {
-            return node;
-        }
+            return [node, parent];
+        };
         
-        if(node.left) {
-            return this.search(node.left, el);
-        } else if(node.right) {
-            return this.search(node.right, el);
+        if(node.data > el) {
+            return this.search(node.left, el, node);
+        } else if(node.data < el) {
+            return this.search(node.right, el, node);
         }
+    }
+
+    preOrder(node) {
+        if(!node) {
+            return;
+        }
+
+        console.log(node.data)
+        this.preOrder(node.left);
+        this.preOrder(node.right);
+    }
+    
+    inOrder(node) {
+        if(!node) {
+            return;
+        }
+
+        this.inOrder(node.left);
+        console.log(node.data)
+        this.inOrder(node.right);
+    }
+
+    postOrder(node) {
+        if(!node) {
+            return;
+        }
+
+        this.postOrder(node.left);
+        this.postOrder(node.right);
+        console.log(node.data);
     }
 }
 
 const tree = new BST();
-tree.insert(12);
+tree.insert(6);
 tree.insert(8);
-tree.insert(1);
-tree.insert(52);
-tree.insert(2);
+tree.insert(4);
+tree.insert(12);
+tree.insert(5);
+tree.insert(7);
+tree.insert(10);
+tree.insert(14);
 
-console.log(tree.search(tree.root, 1));
-// console.log(tree);
+
+// tree.inOrder(tree.root);
+tree.postOrder(tree.root);
